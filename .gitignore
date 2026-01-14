@@ -1,0 +1,7 @@
+node_modules/
+*.log
+.DS_Store
+*.tsbuildinfo
+
+# Note: dist/ is NOT ignored - it must be committed for GitHub URL installs
+
