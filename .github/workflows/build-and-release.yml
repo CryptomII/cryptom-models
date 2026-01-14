@@ -21,7 +21,7 @@ jobs:
           ref: ${{ github.event.workflow_run.head_branch }}
           sha: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CI_TOKEN }}
 
       - uses: actions/setup-node@v4
         with:
@@ -33,12 +33,34 @@ jobs:
       - name: Determine version bump
         id: version
         run: |
-          COMMITS=$(git log --format=%s origin/main..HEAD 2>/dev/null || git log --format=%s -10)
+          BRANCH="${{ github.event.workflow_run.head_branch }}"
+
+          # Get commits since last tag or since origin/main
+          if git rev-parse --verify "origin/$BRANCH" >/dev/null 2>&1; then
+            COMMITS=$(git log --format=%s "origin/$BRANCH..HEAD" 2>/dev/null || echo "")
+          else
+            COMMITS=$(git log --format=%s -10 2>/dev/null || echo "")
+          fi
+
+          # Check if we have any commits
+          if [ -z "$COMMITS" ]; then
+            echo "⚠️  No commits found, defaulting to patch version"
+            echo "bump=patch" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Check for conventional commit patterns
           if echo "$COMMITS" | grep -qE "^BREAKING|^.*!:"; then
+            echo "✅ BREAKING change detected - major version bump"
             echo "bump=major" >> $GITHUB_OUTPUT
           elif echo "$COMMITS" | grep -qE "^feat"; then
+            echo "✅ Feature detected - minor version bump"
             echo "bump=minor" >> $GITHUB_OUTPUT
+          elif echo "$COMMITS" | grep -qE "^(fix|chore|docs|style|refactor|perf|test|build|ci|revert)"; then
+            echo "✅ Patch-level change detected - patch version bump"
+            echo "bump=patch" >> $GITHUB_OUTPUT
           else
+            echo "⚠️  No conventional commits found, defaulting to patch version"
             echo "bump=patch" >> $GITHUB_OUTPUT
           fi
 
@@ -54,7 +76,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CI_TOKEN }}
           commit-message: "chore: build dist and bump version"
           title: "chore: Release build for ${{ github.event.workflow_run.head_branch }}"
           body: |
