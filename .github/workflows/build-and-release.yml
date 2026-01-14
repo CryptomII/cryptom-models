@@ -21,6 +21,7 @@ jobs:
           ref: ${{ github.event.workflow_run.head_branch }}
           sha: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: 0
+          fetch-tags: true
           token: ${{ secrets.CI_TOKEN }}
 
       - uses: actions/setup-node@v4
@@ -28,6 +29,11 @@ jobs:
           node-version: "20"
 
       - run: npm ci
+
+      # Fetch all remote refs to avoid missing branch errors
+      - name: Fetch remote refs
+        run: |
+          git fetch origin --prune --tags
 
       # Determine version bump from commit messages
       - name: Determine version bump
@@ -84,6 +90,7 @@ jobs:
             Version bump: ${{ steps.version.outputs.bump }}
           branch: release/${{ github.event.workflow_run.head_branch }}-${{ github.run_number }}
           base: ${{ github.event.workflow_run.head_branch }}
+          delete-branch: false
 
       # For dev branch: update floating 'dev' tag
       - name: Update dev tag
@@ -91,8 +98,9 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
+          git fetch origin --tags --force
           git tag -fa dev -m "Latest dev build"
-          git push origin dev --force
+          git push origin refs/tags/dev --force
 
       # For main branch: create version tag
       - name: Create version tag
@@ -101,5 +109,6 @@ jobs:
           VERSION=$(node -p "require('./package.json').version")
           git config user.name github-actions
           git config user.email github-actions@github.com
+          git fetch origin --tags --force
           git tag -a "v$VERSION" -m "Release v$VERSION"
-          git push origin "v$VERSION"
+          git push origin "refs/tags/v$VERSION"
