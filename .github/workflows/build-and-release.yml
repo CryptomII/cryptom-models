@@ -78,7 +78,32 @@ jobs:
       # Build dist
       - run: npm run build
 
-      # Create PR with changes
+      # For dev branch: update floating 'dev-latest' tag (must succeed before PR creation)
+      - name: Update dev-latest tag
+        if: github.event.workflow_run.head_branch == 'dev'
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git fetch origin --tags --force
+          # Delete existing dev-latest tag if it exists
+          git tag -d dev-latest 2>/dev/null || true
+          git push origin :refs/tags/dev-latest 2>/dev/null || true
+          # Create new dev-latest tag (don't use refs/tags/ prefix when creating)
+          git tag -fa dev-latest -m "Latest dev build"
+          git push origin refs/tags/dev-latest --force
+
+      # For main branch: create version tag (must succeed before PR creation)
+      - name: Create version tag
+        if: github.event.workflow_run.head_branch == 'main'
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git fetch origin --tags --force
+          git tag -a "v$VERSION" -m "Release v$VERSION"
+          git push origin "refs/tags/v$VERSION"
+
+      # Create PR with changes (only after tags are successfully created)
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
@@ -91,28 +116,3 @@ jobs:
           branch: release/${{ github.event.workflow_run.head_branch }}-${{ github.run_number }}
           base: ${{ github.event.workflow_run.head_branch }}
           delete-branch: false
-
-      # For dev branch: update floating 'dev-latest' tag
-      - name: Update dev-latest tag
-        if: github.event.workflow_run.head_branch == 'dev'
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git fetch origin --tags --force
-          # Delete existing dev-latest tag if it exists
-          git tag -d dev-latest 2>/dev/null || true
-          git push origin :refs/tags/dev-latest 2>/dev/null || true
-          # Create new dev-latest tag explicitly
-          git tag -fa refs/tags/dev-latest -m "Latest dev build"
-          git push origin refs/tags/dev-latest --force
-
-      # For main branch: create version tag
-      - name: Create version tag
-        if: github.event.workflow_run.head_branch == 'main'
-        run: |
-          VERSION=$(node -p "require('./package.json').version")
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git fetch origin --tags --force
-          git tag -a "v$VERSION" -m "Release v$VERSION"
-          git push origin "refs/tags/v$VERSION"
