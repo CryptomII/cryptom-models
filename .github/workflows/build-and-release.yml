@@ -1,0 +1,83 @@
+name: Build and Release
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+    branches:
+      - main
+      - dev
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    # Only run if CI workflow completed successfully
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout code from workflow run
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+          sha: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - run: npm ci
+
+      # Determine version bump from commit messages
+      - name: Determine version bump
+        id: version
+        run: |
+          COMMITS=$(git log --format=%s origin/main..HEAD 2>/dev/null || git log --format=%s -10)
+          if echo "$COMMITS" | grep -qE "^BREAKING|^.*!:"; then
+            echo "bump=major" >> $GITHUB_OUTPUT
+          elif echo "$COMMITS" | grep -qE "^feat"; then
+            echo "bump=minor" >> $GITHUB_OUTPUT
+          else
+            echo "bump=patch" >> $GITHUB_OUTPUT
+          fi
+
+      # Bump version in package.json
+      - name: Bump version
+        run: |
+          npm version ${{ steps.version.outputs.bump }} --no-git-tag-version
+
+      # Build dist
+      - run: npm run build
+
+      # Create PR with changes
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: build dist and bump version"
+          title: "chore: Release build for ${{ github.event.workflow_run.head_branch }}"
+          body: |
+            Automated build triggered by merge to ${{ github.event.workflow_run.head_branch }}
+            Version bump: ${{ steps.version.outputs.bump }}
+          branch: release/${{ github.event.workflow_run.head_branch }}-${{ github.run_number }}
+          base: ${{ github.event.workflow_run.head_branch }}
+
+      # For dev branch: update floating 'dev' tag
+      - name: Update dev tag
+        if: github.event.workflow_run.head_branch == 'dev'
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git tag -fa dev -m "Latest dev build"
+          git push origin dev --force
+
+      # For main branch: create version tag
+      - name: Create version tag
+        if: github.event.workflow_run.head_branch == 'main'
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git tag -a "v$VERSION" -m "Release v$VERSION"
+          git push origin "v$VERSION"

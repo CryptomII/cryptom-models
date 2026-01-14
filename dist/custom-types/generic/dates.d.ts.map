@@ -1,0 +1,1 @@
+{"version":3,"file":"dates.d.ts","sourceRoot":"","sources":["../../../src/custom-types/generic/dates.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAA;AAElC,MAAM,MAAM,IAAI,GAAG,MAAM,CAAA;AACzB,MAAM,MAAM,KAAK,GAAG,QAAQ,CAAC,CAAC,EAAE,EAAE,CAAC,CAAA;AACnC,MAAM,MAAM,GAAG,GAAG,QAAQ,CAAC,CAAC,EAAE,EAAE,CAAC,CAAA"}

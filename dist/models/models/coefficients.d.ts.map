@@ -1,0 +1,1 @@
+{"version":3,"file":"coefficients.d.ts","sourceRoot":"","sources":["../../../src/models/models/coefficients.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,YAAY,EAAE,cAAc,EAAE,MAAM,UAAU,CAAA;AAEvD,MAAM,WAAW,YAAY;IAC3B,WAAW,EAAE,MAAM,CAAA;IACnB,SAAS,EAAE,MAAM,CAAA;IACjB,EAAE,EAAE,MAAM,CAAA;IACV,IAAI,EAAE,YAAY,CAAA;IAClB,MAAM,EAAE,cAAc,CAAA;IACtB,SAAS,EAAE,MAAM,CAAA;CAClB"}
