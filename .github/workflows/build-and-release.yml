@@ -21,7 +21,7 @@ jobs:
           ref: ${{ github.event.workflow_run.head_branch }}
           sha: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CI_TOKEN }}
 
       - uses: actions/setup-node@v4
         with:
@@ -54,7 +54,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CI_TOKEN }}
           commit-message: "chore: build dist and bump version"
           title: "chore: Release build for ${{ github.event.workflow_run.head_branch }}"
           body: |
