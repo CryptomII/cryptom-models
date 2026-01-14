@@ -85,9 +85,19 @@ git commit -m "feat!: remove deprecated OrderSimulator type"
 
 ### Tagging Behavior
 
-- **dev branch**: When code is merged to `dev`, the workflow updates the floating `dev-latest` tag to point to the latest build. This allows consumers to always get the latest dev version by installing `#dev-latest`.
+- **dev branch**: When code is merged to `dev`, the workflow:
+  1. Automatically bumps the version in `package.json` based on commit messages
+  2. Builds the `dist/` folder with compiled TypeScript
+  3. Creates/updates the `dev-latest` tag
+  4. **Opens a new Pull Request** with the version bump and build artifacts
+   
+  This allows consumers to always get the latest dev version by installing `#dev-latest`.
 
-- **main branch**: When code is merged to `main`, the workflow creates a new immutable version tag (e.g., `v1.2.0`) based on the commit message conventions.
+- **main branch**: When code is merged to `main`, the workflow:
+  1. Automatically bumps the version in `package.json` based on commit messages
+  2. Builds the `dist/` folder with compiled TypeScript
+  3. Creates a new immutable version tag (e.g., `v1.2.0`)
+  4. **Opens a new Pull Request** with the version bump and build artifacts
 
 ## Development Workflow
 
@@ -96,11 +106,16 @@ git commit -m "feat!: remove deprecated OrderSimulator type"
 1. Make changes to TypeScript files in the `src/` directory
 2. Use proper commit prefixes (`fix:`, `feat:`, `BREAKING:`)
 3. Create a pull request and merge to `dev` or `main`
-4. GitHub Actions automatically:
-   - Builds the `dist/` folder
-   - Bumps the version based on commit messages
-   - Creates a PR with the build artifacts
-   - Tags the release (`dev-latest` tag or `vX.Y.Z`)
+4. After merging, GitHub Actions automatically:
+   - Determines version bump based on commit message conventions
+   - Updates `package.json` version
+   - Builds the `dist/` folder with compiled TypeScript
+   - Creates/updates the appropriate tag (`dev-latest` for dev, `vX.Y.Z` for main)
+   - **Opens a new Pull Request** containing:
+     - Updated `package.json` with bumped version
+     - Compiled `dist/` folder with build artifacts
+   
+   **Note**: The release PR must be merged to complete the release process. The tag is created before the PR, so if tag creation fails, the PR will not be created.
 
 ### Local Development
 
