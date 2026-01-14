@@ -17,10 +17,10 @@ npm install git+https://github.com/CryptomII/cryptom-models.git#v1.0.0
 Install the latest dev build:
 
 ```bash
-npm install git+https://github.com/CryptomII/cryptom-models.git#dev
+npm install git+https://github.com/CryptomII/cryptom-models.git#dev-latest
 ```
 
-The `dev` tag is a floating tag that always points to the latest build from the `dev` branch, making it perfect for testing pre-release changes.
+The `dev-latest` tag is a floating tag that always points to the latest build from the `dev` branch, making it perfect for testing pre-release changes.
 
 ## Usage
 
@@ -80,12 +80,12 @@ git commit -m "feat!: remove deprecated OrderSimulator type"
 
 | Branch | Tag | Usage |
 |--------|-----|-------|
-| `dev` | `dev` (floating) | Testing/pre-release - always latest dev build |
+| `dev` | `dev-latest` (floating) | Testing/pre-release - always latest dev build |
 | `main` | `vX.Y.Z` (fixed) | Production releases - immutable version tags |
 
 ### Tagging Behavior
 
-- **dev branch**: When code is merged to `dev`, the workflow updates the floating `dev` tag to point to the latest build. This allows consumers to always get the latest dev version by installing `#dev`.
+- **dev branch**: When code is merged to `dev`, the workflow updates the floating `dev-latest` tag to point to the latest build. This allows consumers to always get the latest dev version by installing `#dev-latest`.
 
 - **main branch**: When code is merged to `main`, the workflow creates a new immutable version tag (e.g., `v1.2.0`) based on the commit message conventions.
 
@@ -100,7 +100,7 @@ git commit -m "feat!: remove deprecated OrderSimulator type"
    - Builds the `dist/` folder
    - Bumps the version based on commit messages
    - Creates a PR with the build artifacts
-   - Tags the release (`dev` tag or `vX.Y.Z`)
+   - Tags the release (`dev-latest` tag or `vX.Y.Z`)
 
 ### Local Development
 

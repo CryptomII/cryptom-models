@@ -92,15 +92,19 @@ jobs:
           base: ${{ github.event.workflow_run.head_branch }}
           delete-branch: false
 
-      # For dev branch: update floating 'dev' tag
-      - name: Update dev tag
+      # For dev branch: update floating 'dev-latest' tag
+      - name: Update dev-latest tag
         if: github.event.workflow_run.head_branch == 'dev'
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git fetch origin --tags --force
-          git tag -fa dev -m "Latest dev build"
-          git push origin refs/tags/dev --force
+          # Delete existing dev-latest tag if it exists
+          git tag -d dev-latest 2>/dev/null || true
+          git push origin :refs/tags/dev-latest 2>/dev/null || true
+          # Create new dev-latest tag explicitly
+          git tag -fa refs/tags/dev-latest -m "Latest dev build"
+          git push origin refs/tags/dev-latest --force
 
       # For main branch: create version tag
       - name: Create version tag
