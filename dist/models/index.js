@@ -20,4 +20,8 @@ __exportStar(require("./indicators.model"), exports);
 __exportStar(require("./websocket-message.model"), exports);
 __exportStar(require("./global-candles.model"), exports);
 __exportStar(require("./global-moments.model"), exports);
+__exportStar(require("./user.model"), exports);
+__exportStar(require("./order.model"), exports);
+__exportStar(require("./trendline.model"), exports);
+__exportStar(require("./trade-rule.model"), exports);
 //# sourceMappingURL=index.js.map

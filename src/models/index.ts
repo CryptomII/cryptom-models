@@ -4,3 +4,7 @@ export * from './indicators.model';
 export * from './websocket-message.model';
 export * from './global-candles.model';
 export * from './global-moments.model';
+export * from './user.model';
+export * from './order.model';
+export * from './trendline.model';
+export * from './trade-rule.model';
