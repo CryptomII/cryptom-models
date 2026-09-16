@@ -19,6 +19,7 @@
         "url": "git+https://github.com/CryptomII/cryptom-models.git"
     },
     "devDependencies": {
+        "node-binance-api": "^1.0.22",
         "@typescript-eslint/eslint-plugin": "^6.21.0",
         "@typescript-eslint/parser": "^6.21.0",
         "eslint": "^8.56.0",
