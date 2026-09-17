@@ -5,10 +5,14 @@ export interface Order {
     amount: number;
     openPrice: string;
     openTime: Date;
+    openMoment: Record<string, any>;
+    openBinanceData: Record<string, any>;
     closePrice?: string;
     closeTime?: Date;
+    closeMoment?: Record<string, any>;
+    closeBinanceData?: Record<string, any>;
     profit?: number;
-    isTest?: number;
+    isTest?: boolean;
     created: Date;
     updated: Date;
 }
