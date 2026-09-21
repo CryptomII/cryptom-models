@@ -1,3 +1,5 @@
+import { Moment } from "./moment.model";
+
 /**
  * Represents the labeling of a trading moment, including entry, stop, and target reach times.
  */
@@ -14,4 +16,36 @@ export interface MomentLabel {
   reach50At: number | null;
   mfePct: number; // best high vs entry (%) BEFORE the stop candle
   ambiguous?: boolean; // the stop candle also touched an open target (counts as a loss)
+}
+
+export const LABEL_TARGETS = [5, 10, 20, 30, 40, 50] as const;
+export type LabelTarget = (typeof LABEL_TARGETS)[number];
+export type Outcome = "win" | "loss" | "pending";
+
+/** What the API sends: no join key, no worker bookkeeping. */
+export type PublicLabel = Omit<
+  MomentLabel,
+  "openTime" | "closeTime" | "scannedUntil"
+>;
+
+export type MomentWithLabel = Moment & { label: PublicLabel | null };
+
+/**
+ * Same rule for API and UI: a target reached before any stop is a win even while the
+ * label is still open; a tie on the same candle (stopAt === reachAt) is a loss.
+ */
+export function resolveOutcome(
+  label:
+    | Pick<MomentLabel, "stopAt" | `reach${LabelTarget}At`>
+    | null
+    | undefined,
+  target: LabelTarget,
+): Outcome {
+  if (!label) return "pending";
+  const stopAt = label.stopAt ?? null;
+  const reachAt = label[`reach${target}At` as const] ?? null;
+
+  if (reachAt !== null && (stopAt === null || reachAt < stopAt)) return "win";
+  if (stopAt !== null) return "loss";
+  return "pending";
 }
