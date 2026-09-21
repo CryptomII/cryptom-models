@@ -5,6 +5,7 @@ import { Moment } from "./moment.model";
  */
 export interface MomentLabel {
   openTime: number; // same as the anchor Moment's openTime (unique key)
+  closeTime?: number; // same as the anchor Moment's closeTime
   entry: number; // close of the anchor = entry price
   scannedUntil: number; // openTime of the last 5m candle already scanned (the job resumes from here)
   stopAt: number | null; // 1º 5m candle low <= entry * 0.95
@@ -16,6 +17,7 @@ export interface MomentLabel {
   reach50At: number | null;
   mfePct: number; // best high vs entry (%) BEFORE the stop candle
   ambiguous?: boolean; // the stop candle also touched an open target (counts as a loss)
+  done?: boolean; // whether the labeling process for this moment is complete
 }
 
 export const LABEL_TARGETS = [5, 10, 20, 30, 40, 50] as const;

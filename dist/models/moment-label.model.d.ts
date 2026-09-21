@@ -4,6 +4,7 @@ import { Moment } from "./moment.model";
  */
 export interface MomentLabel {
     openTime: number;
+    closeTime?: number;
     entry: number;
     scannedUntil: number;
     stopAt: number | null;
@@ -15,6 +16,7 @@ export interface MomentLabel {
     reach50At: number | null;
     mfePct: number;
     ambiguous?: boolean;
+    done?: boolean;
 }
 export declare const LABEL_TARGETS: readonly [5, 10, 20, 30, 40, 50];
 export type LabelTarget = (typeof LABEL_TARGETS)[number];
