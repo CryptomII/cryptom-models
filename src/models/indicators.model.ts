@@ -1,16 +1,16 @@
-export type Indicators = {
-	rsi: number;
+export interface Indicators {
+  rsi: number;
 
-	smaShort: number;
-	smaLong: number;
+  smaShort: number;
+  smaLong: number;
 
-	emaShort: number;
-	emaLong: number;
+  emaShort: number;
+  emaLong: number;
 
-	macd: number | undefined;
-	signal: number | undefined;
-	histogram: number | undefined;
+  macd: number | undefined;
+  signal: number | undefined;
+  histogram: number | undefined;
 
-	standardDeviationShort: number;
-	standardDeviationLong: number;
-};
+  standardDeviationShort: number;
+  standardDeviationLong: number;
+}

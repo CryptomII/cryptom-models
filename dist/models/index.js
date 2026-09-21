@@ -14,8 +14,10 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+__exportStar(require("./configs.model"), exports);
 __exportStar(require("./candle.model"), exports);
 __exportStar(require("./moment.model"), exports);
+__exportStar(require("./moment-full.model"), exports);
 __exportStar(require("./indicators.model"), exports);
 __exportStar(require("./websocket-message.model"), exports);
 __exportStar(require("./global-candles.model"), exports);

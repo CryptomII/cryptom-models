@@ -1,4 +1,4 @@
-export type Indicators = {
+export interface Indicators {
     rsi: number;
     smaShort: number;
     smaLong: number;
@@ -9,5 +9,5 @@ export type Indicators = {
     histogram: number | undefined;
     standardDeviationShort: number;
     standardDeviationLong: number;
-};
+}
 //# sourceMappingURL=indicators.model.d.ts.map
