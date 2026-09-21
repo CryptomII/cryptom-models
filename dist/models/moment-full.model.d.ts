@@ -34,7 +34,7 @@ import { Moment } from "./moment.model";
  *    ...moment_1w,
  * }
  * ```
-*/
+ */
 export interface MomentFull extends Moment {
     low_5m: string;
     high_5m: string;

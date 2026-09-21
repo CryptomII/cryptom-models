@@ -15,7 +15,7 @@ export interface Order {
     closeBinanceData?: Record<string, any>;
     profit?: number;
     isTest?: boolean;
-    created: Date;
-    updated: Date;
+    created?: Date;
+    updated?: Date;
 }
 //# sourceMappingURL=order.model.d.ts.map

@@ -18,6 +18,7 @@ __exportStar(require("./configs.model"), exports);
 __exportStar(require("./candle.model"), exports);
 __exportStar(require("./moment.model"), exports);
 __exportStar(require("./moment-full.model"), exports);
+__exportStar(require("./moment-label.model"), exports);
 __exportStar(require("./indicators.model"), exports);
 __exportStar(require("./websocket-message.model"), exports);
 __exportStar(require("./global-candles.model"), exports);

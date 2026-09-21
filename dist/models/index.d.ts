@@ -2,6 +2,7 @@ export * from "./configs.model";
 export * from "./candle.model";
 export * from "./moment.model";
 export * from "./moment-full.model";
+export * from "./moment-label.model";
 export * from "./indicators.model";
 export * from "./websocket-message.model";
 export * from "./global-candles.model";
