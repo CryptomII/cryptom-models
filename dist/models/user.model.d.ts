@@ -8,6 +8,7 @@ export interface User {
     isTest?: boolean;
     isAutoTrading?: boolean;
     emailVisibility?: boolean;
+    isSimulator?: boolean;
     verified?: boolean;
     binanceKey?: string;
     binanceSecret?: string;
