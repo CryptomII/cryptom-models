@@ -8,11 +8,13 @@ export interface Order {
     openMoment: Record<string, any>;
     openTrendline: Record<string, any>;
     openBinanceData: Record<string, any>;
+    openStrategy: string;
     closePrice?: string;
     closeTime?: Date;
     closeMoment?: Record<string, any>;
     closeTrendline?: Record<string, any>;
     closeBinanceData?: Record<string, any>;
+    closeStrategy?: string;
     profit?: number;
     isTest?: boolean;
     created?: Date;
