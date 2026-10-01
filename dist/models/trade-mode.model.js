@@ -8,5 +8,4 @@ var TradeModes;
     TradeModes["SCALPING"] = "SCALPING";
     TradeModes["HODL"] = "HODL";
 })(TradeModes || (exports.TradeModes = TradeModes = {}));
-const a = TradeModes.DAYTRADE;
 //# sourceMappingURL=trade-mode.model.js.map

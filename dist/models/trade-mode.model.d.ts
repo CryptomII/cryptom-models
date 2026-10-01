@@ -14,7 +14,7 @@
  * "SCALPING": Fast trades with quick entries and exits. Faster than day trading.
  * "HODL": The order is intended for long-term holding.
  * ```
-*/
+ */
 export type TradeMode = TradeModes;
 export declare enum TradeModes {
     DAYTRADE = "DAYTRADE",
