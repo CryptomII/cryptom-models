@@ -1,1 +1,1 @@
-{"version":3,"file":"trade-mode.model.js","sourceRoot":"","sources":["../../src/models/trade-mode.model.ts"],"names":[],"mappings":""}
+{"version":3,"file":"trade-mode.model.js","sourceRoot":"","sources":["../../src/models/trade-mode.model.ts"],"names":[],"mappings":";;;AAoBA,IAAY,UAKX;AALD,WAAY,UAAU;IACpB,mCAAqB,CAAA;IACrB,6BAAe,CAAA;IACf,mCAAqB,CAAA;IACrB,2BAAa,CAAA;AACf,CAAC,EALW,UAAU,0BAAV,UAAU,QAKrB;AACD,MAAM,CAAC,GAAe,UAAU,CAAC,QAAQ,CAAC"}

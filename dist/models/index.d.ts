@@ -11,4 +11,5 @@ export * from "./user.model";
 export * from "./order.model";
 export * from "./trendline.model";
 export * from "./trade-rule.model";
+export * from "./trade-mode.model";
 //# sourceMappingURL=index.d.ts.map

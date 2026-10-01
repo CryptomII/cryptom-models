@@ -27,4 +27,5 @@ __exportStar(require("./user.model"), exports);
 __exportStar(require("./order.model"), exports);
 __exportStar(require("./trendline.model"), exports);
 __exportStar(require("./trade-rule.model"), exports);
+__exportStar(require("./trade-mode.model"), exports);
 //# sourceMappingURL=index.js.map

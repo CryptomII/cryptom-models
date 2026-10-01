@@ -24,10 +24,10 @@ export interface Order {
    * ===================================================
    * 
    * ```
-   * "DAYTRADE": The order is intended for day trading.
-   * "SWING": The order is intended for weekly or medium-term trading.
-   * "SCALPING": The order is intended for scalping.
-   * "HODL": The order is intended for long-term holding.
+   * "DAYTRADE": Fast trades within a single day or two.
+   * "SWING": The order is intended for weekly or medium-term trading. 
+   * "SCALPING": Fast trades with quick entries and exits. Faster than day trading.
+   * "HODL": The order is intended for long-term holding. 
    * ```
   */
   openTradeMode: TradeMode;
@@ -48,10 +48,10 @@ export interface Order {
    * ===================================================
    * 
    * ```
-   * "DAYTRADE": The order is intended for day trading.
-   * "SWING": The order is intended for weekly or medium-term trading.
-   * "SCALPING": The order is intended for scalping.
-   * "HODL": The order is intended for long-term holding.
+   * "DAYTRADE": Fast trades within a single day or two.
+   * "SWING": The order is intended for weekly or medium-term trading. 
+   * "SCALPING": Fast trades with quick entries and exits. Faster than day trading.
+   * "HODL": The order is intended for long-term holding. 
    * ```
   */
   closeTradeMode?: TradeMode;
